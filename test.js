@@ -3,20 +3,15 @@ var assert = require('assert');
 var fs = require('fs');
 var gutil = require('gulp-util');
 var pathExists = require('path-exists');
-var dockerdest = require('./');
+var docker = require('./');
 var mockServer;
 
-it('should upload files to FTP-server', function (cb) {
-	var stream = dockerdest({
+it('would be beneficial to mock Docker to make some tests', function (cb) {
+	var stream = docker.dest({
 		container: 'helloember_node_1'
 	});
 
 	setTimeout(function () {
-		assert(pathExists.sync('fixture/fixture.txt'));
-		assert(pathExists.sync('fixture/fixture2.txt'));
-		fs.unlinkSync('fixture/fixture.txt');
-		fs.unlinkSync('fixture/fixture2.txt');
-		fs.rmdirSync('fixture');
 		cb();
 	}, 1000);
 

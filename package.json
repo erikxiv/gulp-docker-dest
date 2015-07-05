@@ -1,6 +1,6 @@
 {
   "name": "gulp-docker-dest",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Copy files to a Docker container",
   "license": "MIT",
   "repository": "erikxiv/gulp-docker-dest",
