@@ -8,25 +8,13 @@ var plur = require('plur');
 var child_process = require('child_process')
 
 function cp(container, contents, containerpath, cb) {
-  var exec = child_process.spawn('docker', ['exec', '-i', container, 'sh', '-c', '\'\'cat > '+containerpath+'\'\'']);
+  var exec = child_process.exec('docker exec -i ' + container + ' sh -c \'cat > ' + containerpath + '\'', cb);
 	exec.stdin.write(contents);
 	exec.stdin.end();
-  exec.on('close', function (code) {
-  	if (code !== 0)
-  		cb(exec.stderr.toString())
-  	else
-  		cb();
-  });
 }
 
 function exec(container, cmd, cb) {
-  var exec = child_process.spawn('docker', ['exec', container].concat(cmd.split(' ')));
-  exec.on('close', function(code) {
-  	if (code !== 0)
-  		cb(exec.stderr.toString())
-  	else
-  		cb();
-  });
+  var exec = child_process.exec('docker exec ' + container + ' ' + cmd, cb);
 }
 
 function mkdirp(container, containerpath, cb) {
