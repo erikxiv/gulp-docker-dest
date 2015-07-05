@@ -8,12 +8,18 @@ var plur = require('plur');
 var child_process = require('child_process')
 
 function cp(container, contents, containerpath, cb) {
+	if (process.argv.indexOf('--verbose') !== -1) {
+		gutil.log('gulp-docker-dest cp:', container + ' ' + containerpath);
+	}
   var exec = child_process.exec('docker exec -i ' + container + ' sh -c \'cat > ' + containerpath + '\'', cb);
 	exec.stdin.write(contents);
 	exec.stdin.end();
 }
 
 function exec(container, cmd, cb) {
+	if (process.argv.indexOf('--verbose') !== -1) {
+		gutil.log('gulp-docker-dest exec:', container + ' ' + cmd);
+	}
   var exec = child_process.exec('docker exec ' + container + ' ' + cmd, cb);
 }
 
@@ -66,10 +72,6 @@ module.exports = {
 				fileCount++;
 				cb(null, file);
 			});
-
-			if (options.verbose) {
-				gutil.log('gulp-docker-dest:', chalk.green('✔ ') + file.relative);
-			}
 		}, function (cb) {
 			if (fileCount > 0) {
 				gutil.log('gulp-docker-dest:', gutil.colors.green(fileCount, plur('file', fileCount), 'uploaded successfully'));
