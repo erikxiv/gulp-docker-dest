@@ -2,35 +2,13 @@
 var assert = require('assert');
 var fs = require('fs');
 var gutil = require('gulp-util');
-var Server = require('ftp-test-server');
 var pathExists = require('path-exists');
-var ftp = require('./');
+var dockerdest = require('./');
 var mockServer;
 
-before(function (done) {
-	mockServer = new Server();
-
-	mockServer.init({
-		user: 'test',
-		pass: 'test'
-	});
-
-	mockServer.on('stdout', process.stdout.write.bind(process.stdout));
-	mockServer.on('stderr', process.stderr.write.bind(process.stderr));
-
-	setTimeout(done, 500);
-});
-
-after(function () {
-	mockServer.stop();
-});
-
 it('should upload files to FTP-server', function (cb) {
-	var stream = ftp({
-		host: 'localhost',
-		port: 3334,
-		user: 'test',
-		pass: 'test'
+	var stream = dockerdest({
+		container: 'helloember_node_1'
 	});
 
 	setTimeout(function () {
@@ -40,7 +18,7 @@ it('should upload files to FTP-server', function (cb) {
 		fs.unlinkSync('fixture/fixture2.txt');
 		fs.rmdirSync('fixture');
 		cb();
-	}, 500);
+	}, 1000);
 
 	stream.write(new gutil.File({
 		cwd: __dirname,

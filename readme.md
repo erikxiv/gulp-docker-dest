@@ -1,16 +1,14 @@
-# gulp-ftp [![Build Status](https://travis-ci.org/sindresorhus/gulp-ftp.svg?branch=master)](https://travis-ci.org/sindresorhus/gulp-ftp)
+# gulp-docker-dest [![Build Status](https://travis-ci.org/erikxiv/gulp-docker-dest.svg?branch=master)](https://travis-ci.org/erikxiv/gulp-docker-dest)
 
-## Deprecated in favor of [`vinyl-ftp`](https://github.com/morris/vinyl-ftp).
+> Copy files to a Docker container
 
-> Upload files to an FTP-server
-
-Useful for uploading and deploying things.
+Useful in developer workflows
 
 
 ## Install
 
 ```
-$ npm install --save-dev gulp-ftp
+$ npm install --save-dev gulp-docker-dest
 ```
 
 
@@ -19,57 +17,31 @@ $ npm install --save-dev gulp-ftp
 ```js
 var gulp = require('gulp');
 var gutil = require('gulp-util');
-var ftp = require('gulp-ftp');
+var dockerdest = require('gulp-docker-dest');
 
 gulp.task('default', function () {
 	return gulp.src('src/*')
-		.pipe(ftp({
-			host: 'website.com',
-			user: 'johndoe',
-			pass: '1234'
-		}))
-		// you need to have some kind of stream after gulp-ftp to make sure it's flushed
-		// this can be a gulp plugin, gulp.dest, or any kind of stream
-		// here we use a passthrough stream
-		.pipe(gutil.noop());
+		.pipe(dockerdest({
+			remotePath: '/var/www/html'
+		}));
 });
 ```
 
 
 ## API
 
-### ftp(options)
-
-#### options.host
-
-*Required*  
-Type: `string`
-
-#### options.port
-
-Type: `number`  
-Default: `21`
-
-#### options.user
-
-Type: `string`  
-Default: `'anonymous'`
-
-#### options.pass
-
-Type: `string`  
-Default: `'@anonymous'`
+### dest(options)
 
 #### options.remotePath
 
 Type: `string`  
-Default: `'/'`
+Default: `''`
 
-The remote path to upload too.
+The remote path to copy to.
 
 Nonexistent directories will be created for you.
 
 
 ## License
 
-MIT © [Sindre Sorhus](http://sindresorhus.com)
+MIT © [Sindre Sorhus](http://erikxiv.com)
