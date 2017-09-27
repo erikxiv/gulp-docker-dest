@@ -22,6 +22,7 @@ var dockerdest = require('gulp-docker-dest');
 gulp.task('default', function () {
 	return gulp.src('src/*')
 		.pipe(dockerdest({
+			container: 'containerName',
 			remotePath: '/var/www/html'
 		}));
 });
@@ -31,6 +32,13 @@ gulp.task('default', function () {
 ## API
 
 ### dest(options)
+
+#### options.container
+
+Type: `string`
+Required
+
+The name of the container to copy to.
 
 #### options.remotePath
 
